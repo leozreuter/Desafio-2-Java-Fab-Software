@@ -13,6 +13,10 @@ public class DISCIPLINA {
     protected String nome;
     protected String ementa;
     protected int numero_vagas;
+
+    public DISCIPLINA() {
+        this.nome = "null";
+    }
     
     public int getCodigo() {
         return codigo;

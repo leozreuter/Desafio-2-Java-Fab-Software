@@ -66,5 +66,10 @@ public class PROFESSOR extends PESSOA {
     public void setValor_hora(float valor_hora) {
         this.valor_hora = valor_hora;
     }
+
+    @Override
+    public String toString() {
+        return this.nome+": Matricula:"+ this.matricula+", Endereço: "+ this.endereco + ", Titulação:" + titulacao + ", Valor da Hora: R$" + valor_hora;
+    }
     
 }

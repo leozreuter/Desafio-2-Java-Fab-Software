@@ -65,6 +65,11 @@ public class TUTOR extends PESSOA {
     public void setArea_formacao(String area_formacao) {
         this.area_formacao = area_formacao;
     }
+
+    @Override
+    public String toString() {
+        return this.nome+": Matricula:"+ this.matricula+", Endereço: "+ this.endereco + ", Area de formaçãoo:" + area_formacao + ", Salario Mensal: R$" + salario_mensal;
+    }
     
     
 }

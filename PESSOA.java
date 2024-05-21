@@ -13,6 +13,10 @@ public class PESSOA {
     protected String nome;
     protected String endereco;
 
+    public PESSOA() {
+        
+    }
+    
     public int getMatricula() {
         return matricula;
     }

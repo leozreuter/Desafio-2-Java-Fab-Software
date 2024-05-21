@@ -7,6 +7,7 @@ package com.mycompany.desafio2;
 public class ESTUDANTE extends PESSOA {
     private int ano_ingresso;
     private String curso;
+    private String disciplina_cursada;
 
     public ESTUDANTE(String nome, int matricula, String endereco, String curso, int ano_ingresso){
         this.nome = nome;
@@ -14,6 +15,7 @@ public class ESTUDANTE extends PESSOA {
         this.curso = curso;
         this.matricula = matricula;
         this.endereco = endereco;
+        this.disciplina_cursada = null;
     }
 
     @Override
@@ -62,6 +64,14 @@ public class ESTUDANTE extends PESSOA {
         this.curso = curso;
     }
 
+    public String getDisciplina_cursada() {
+        return disciplina_cursada;
+    }
+
+    public void setDisciplina_cursada(String disciplina_cursada) {
+        this.disciplina_cursada = disciplina_cursada;
+    }
+    
     @Override
     public String toString() {
         return this.nome+": Matricula:"+ this.matricula+", Endereço: "+ this.endereco + ", Ano Ingresso:" + ano_ingresso + ", Curso: " + curso;
