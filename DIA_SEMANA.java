@@ -9,5 +9,5 @@ package com.mycompany.desafio2;
  * @author Leonardo Reuter
  */
 public enum DIA_SEMANA {
-    SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SABADO, DOMINGO;
+    SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO, DOMINGO;
 }
