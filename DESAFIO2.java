@@ -1,6 +1,5 @@
 package com.mycompany.desafio2;
 
-
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class DESAFIO2 {
                     //Mantenção de matrículas
                     case 4 -> {
                         sc.nextLine();
-                        manutMatricula(sc, Estudantes, DiscEAD, DiscPresencial, max, Contador);
+                        manutMatricula(sc, Estudantes, Professores, Tutores, DiscEAD, DiscPresencial, max, Contador);
                     }
                     
                     //Exibir horário
@@ -887,58 +886,241 @@ public class DESAFIO2 {
 
     
     //MENU 4
-    private static void manutMatricula(Scanner sc, ArrayList<ESTUDANTE> Estudantes, DISCIPLINA_EAD[] DiscEAD, DISCIPLINA_PRESENCIAL[] DiscPresencial, int max, Contadores Contador) {
+    private static void manutMatricula(Scanner sc, ArrayList<ESTUDANTE> Estudantes, ArrayList<PROFESSOR> Professores, ArrayList<TUTOR> Tutores, DISCIPLINA_EAD[] DiscEAD, DISCIPLINA_PRESENCIAL[] DiscPresencial, int max, Contadores Contador) {
         limparConsole();
         System.out.print("""
                          Qual você quer manutenir a matrícula:
                          1- Estudante
-                         2- Sair
+                         2- Professor
+                         3- Tutor
+                         4- Sair
                          
                          -->""");
         int escolhaMenu = sc.nextInt();
         sc.nextLine();
         
-        //se informar qlqr coisa que não for 1 ou 2
-        while(!(escolhaMenu== 1 || escolhaMenu == 2)){
-            System.out.print("\n\nErro! Indice inexistente!\nTente novamente:\n-->");
-        }
-
-        
-        if (escolhaMenu==2){
-            limparConsole();
-            return;
-        }
-        
         limparConsole();
-        
-        //verifica se está vazio
-        if (Estudantes.isEmpty()){
-            System.out.println("Não há estudantes cadastrados!");
-            System.out.println("\n\nInforme qualquer tecla para voltar...");
-            sc.nextLine();
-            limparConsole();
-            return;
-        }
+        switch(escolhaMenu){
+            //ESTUDANTES
+            case 1 ->{
+                //verifica se está vazio
+                if (Estudantes.isEmpty()){
+                    System.out.println("Não há estudantes cadastrados!");
+                    System.out.println("\n\nInforme qualquer tecla para voltar...");
+                    sc.nextLine();
+                    limparConsole();
+                    return;
+                }
 
 
-        //printa os estudantes cadastrados
-        System.out.println("Qual dos estudantes quer mudar a matricula?\n");
-        for (ESTUDANTE Estudante : Estudantes){
-            System.out.print("\n- "+Estudante.getNome()+" "+ Estudante.getMatricula());
-        }
-        System.out.print("\n-->");
-        String nomeEstudante =  sc.nextLine();
+                //printa os estudantes cadastrados
+                System.out.println("Qual dos estudantes quer mudar a matricula?\n");
+                for (ESTUDANTE Estudante : Estudantes){
+                    System.out.print("- "+Estudante.getNome()+" || Matricula: "+ Estudante.getMatricula());
+                }
+                System.out.print("\nDigite o nome:\n-->");
+                String nomeEstudante =  sc.nextLine();
 
-        int i;
-        for (ESTUDANTE Estudante : Estudantes) {
-            if (Estudante.getNome().equals(nomeEstudante)) {
-                limparConsole();
-        
-                //nova matricula
-                System.out.print("Escolha a nova disciplina cursada:\n1- EAD\n2- Presencial\n-->");
-                int escolhaDisc = sc.nextInt();
-                switch (escolhaDisc){
-                    case 1->{
+                int i;
+                for (ESTUDANTE Estudante : Estudantes) {
+                    if (Estudante.getNome().equals(nomeEstudante)) {
+                        limparConsole();
+
+                        //nova matricula
+                        System.out.print("Escolha a nova disciplina cursada:\n1- EAD\n2- Presencial\n-->");
+                        int escolhaDisc = sc.nextInt();
+                        sc.nextLine();
+                        limparConsole();
+
+                        switch (escolhaDisc){
+                            case 1->{
+                                if(Contador.getContadorDiscpEAD()==0){
+                                    System.out.println("Não existem disciplinas EAD casdastradas!");
+                                    System.out.print("\n\nPressione qualquer tecla para voltar...");
+                                    sc.nextLine();
+                                    return;
+                                }
+
+
+                                //printa as disciplinas
+                                for (i = 0; i < Contador.getContadorDiscpEAD(); i++){
+                                    System.out.println(i+"- "+DiscEAD[i].getNome());
+                                }
+                                System.out.println("");
+                                System.out.println("Qual a disciplina escolhida?\n-->");
+                                int chooseDisc = sc.nextInt();
+
+
+                                while (chooseDisc>=Contador.getContadorDiscpEAD()){
+                                    System.out.print("Indice inválido! Tente novamente!");
+                                    chooseDisc = sc.nextInt();
+                                }
+
+                                Estudante.setDisciplinas_cursadas(DiscEAD[chooseDisc].getNome());
+                                System.out.println("Matriculado!");
+                                return;
+                            }
+                            case 2 ->{
+                                if(Contador.getContadorDiscpPresencial()==0){
+                                    System.out.println("Não existem disciplinas presencial casdastradas!");
+                                    System.out.print("\n\nPressione qualquer tecla para voltar...");
+                                    sc.nextLine();
+                                    return;
+                                }
+
+                                //printa as disciplinas
+                                for (i = 0; i < Contador.getContadorDiscpPresencial(); i++){
+                                    System.out.print(i+"- "+DiscPresencial[i].getNome());
+                                }
+                                System.out.println("");
+                                System.out.print("Qual a disciplina escolhida? Digite o indice:\n-->");
+                                int chooseDisc = sc.nextInt();
+
+
+                                while (chooseDisc>=Contador.getContadorDiscpPresencial()){
+                                    System.out.print("Indice inválido! Tente novamente!");
+                                    chooseDisc = sc.nextInt();
+                                }
+                                Estudante.setDisciplinas_cursadas(DiscPresencial[chooseDisc].getNome());
+                                System.out.println("Matriculado!");
+                                return;
+                            }
+                        }
+                    }
+                    //indice inexistente
+                    else{
+                        System.out.print("Pessoa não encontrada!");
+                        System.out.print("\n\nPressione qualquer tecla para voltar...");
+                        sc.nextLine();
+                        return;
+                    }
+                } 
+            }
+            
+            //PROFESSORES
+            case 2 ->{
+                //verifica se está vazio
+                if (Professores.isEmpty()){
+                    System.out.println("Não há professores cadastrados!");
+                    System.out.println("\n\nInforme qualquer tecla para voltar...");
+                    sc.nextLine();
+                    limparConsole();
+                    return;
+                }
+
+
+                //printa os estudantes cadastrados
+                System.out.println("Qual dos estudantes quer mudar a matricula?\n");
+                for (PROFESSOR Professor : Professores){
+                    System.out.print("- "+Professor.getNome()+" || Matricula: "+ Professor.getMatricula());
+                }
+                System.out.print("\nDigite o nome:\n-->");
+                String nomeProfessores =  sc.nextLine();
+
+                int i;
+                for (PROFESSOR Professor : Professores) {
+                    if (Professor.getNome().equals(nomeProfessores)) {
+                        limparConsole();
+
+                        //nova matricula
+                        System.out.print("Escolha a nova disciplina cursada:\n1- EAD\n2- Presencial\n-->");
+                        int escolhaDisc = sc.nextInt();
+                        sc.nextLine();
+                        limparConsole();
+
+                        switch (escolhaDisc){
+                            case 1->{
+                                if(Contador.getContadorDiscpEAD()==0){
+                                    System.out.println("Não existem disciplinas EAD casdastradas!");
+                                    System.out.print("\n\nPressione qualquer tecla para voltar...");
+                                    sc.nextLine();
+                                    return;
+                                }
+
+
+                                //printa as disciplinas
+                                for (i = 0; i < Contador.getContadorDiscpEAD(); i++){
+                                    System.out.println(i+"- "+DiscEAD[i].getNome());
+                                }
+                                System.out.println("");
+                                System.out.println("Qual a disciplina escolhida?\n-->");
+                                int chooseDisc = sc.nextInt();
+
+
+                                while (chooseDisc>=Contador.getContadorDiscpEAD()){
+                                    System.out.print("Indice inválido! Tente novamente!");
+                                    chooseDisc = sc.nextInt();
+                                }
+
+                                Professor.setDisciplinas(DiscEAD[chooseDisc].getNome());
+                                System.out.println("Matriculado!");
+                                return;
+                            }
+                            case 2 ->{
+                                if(Contador.getContadorDiscpPresencial()==0){
+                                    System.out.println("Não existem disciplinas presencial casdastradas!");
+                                    System.out.print("\n\nPressione qualquer tecla para voltar...");
+                                    sc.nextLine();
+                                    return;
+                                }
+
+                                //printa as disciplinas
+                                for (i = 0; i < Contador.getContadorDiscpPresencial(); i++){
+                                    System.out.print(i+"- "+DiscPresencial[i].getNome());
+                                }
+                                System.out.println("");
+                                System.out.print("Qual a disciplina escolhida? Digite o indice:\n-->");
+                                int chooseDisc = sc.nextInt();
+
+
+                                while (chooseDisc>=Contador.getContadorDiscpPresencial()){
+                                    System.out.print("Indice inválido! Tente novamente!");
+                                    chooseDisc = sc.nextInt();
+                                }
+                                Professor.setDisciplinas(DiscPresencial[chooseDisc].getNome());
+                                System.out.println("Matriculado!");
+                                return;
+                            }
+                        }
+                    }
+                    //indice inexistente
+                    else{
+                        System.out.print("Pessoa não encontrada!");
+                        System.out.print("\n\nPressione qualquer tecla para voltar...");
+                        sc.nextLine();
+                        return;
+                    }
+                }
+            }
+            
+            //TUTORES
+            case 3 ->{
+                //verifica se está vazio
+                if (Tutores.isEmpty()){
+                    System.out.println("Não há professores cadastrados!");
+                    System.out.println("\n\nInforme qualquer tecla para voltar...");
+                    sc.nextLine();
+                    limparConsole();
+                    return;
+                }
+
+
+                //printa os estudantes cadastrados
+                System.out.println("Qual dos estudantes quer mudar a matricula?\n");
+                for (TUTOR Tutor : Tutores){
+                    System.out.print("- "+Tutor.getNome()+" || Matricula: "+ Tutor.getMatricula());
+                }
+                System.out.print("\nDigite o nome:\n-->");
+                String nomeTutor=  sc.nextLine();
+
+                int i;
+                for (TUTOR Tutor : Tutores) {
+                    if (Tutor.getNome().equals(nomeTutor)) {
+                        limparConsole();
+
+                        //nova matricula
+                        System.out.print("Escolha a nova disciplina tutorada:");
+
                         if(Contador.getContadorDiscpEAD()==0){
                             System.out.println("Não existem disciplinas EAD casdastradas!");
                             System.out.print("\n\nPressione qualquer tecla para voltar...");
@@ -946,11 +1128,13 @@ public class DESAFIO2 {
                             return;
                         }
 
+
                         //printa as disciplinas
                         for (i = 0; i < Contador.getContadorDiscpEAD(); i++){
-                            System.out.print(i+"- "+DiscEAD[i].getNome());
+                            System.out.println(i+"- "+DiscEAD[i].getNome());
                         }
-                        System.out.print("Qual a disciplina escolhida?\n-->");
+                        System.out.println("");
+                        System.out.println("Qual a disciplina escolhida?\n-->");
                         int chooseDisc = sc.nextInt();
 
 
@@ -959,40 +1143,30 @@ public class DESAFIO2 {
                             chooseDisc = sc.nextInt();
                         }
 
-                        Estudante.setDisciplina_cursada(DiscEAD[i].getNome());
+                        Tutor.setDisciplinas(DiscEAD[chooseDisc].getNome());
+                        System.out.println("Matriculado!");
+                        return;
                     }
-                    case 2 ->{
-                        if(Contador.getContadorDiscpPresencial()==0){
-                            System.out.println("Não existem disciplinas presencial casdastradas!");
-                            System.out.print("\n\nPressione qualquer tecla para voltar...");
-                            sc.nextLine();
-                            return;
-                        }
-
-                        //printa as disciplinas
-                        for (i = 0; i < Contador.getContadorDiscpPresencial(); i++){
-                            System.out.print(i+"- "+DiscPresencial[i].getNome());
-                        }
-                        System.out.print("Qual a disciplina escolhida?\n-->");
-                        int chooseDisc = sc.nextInt();
-
-
-                        while (chooseDisc>=Contador.getContadorDiscpPresencial()){
-                            System.out.print("Indice inválido! Tente novamente!");
-                            chooseDisc = sc.nextInt();
-                        }
-                        Estudante.setDisciplina_cursada(DiscPresencial[i].getNome());
+                    //indice inexistente
+                    else{
+                        System.out.print("Pessoa não encontrada!");
+                        System.out.print("\n\nPressione qualquer tecla para voltar...");
+                        sc.nextLine();
+                        return;
                     }
                 }
             }
-            //indice inexistente
-            else{
-                System.out.print("Pessoal não encontrada!");
-                System.out.print("\n\nPressione qualquer tecla para voltar...");
-                sc.nextLine();
+            
+            //SAIR
+            case 4 ->{
+                limparConsole();
                 return;
             }
-        }         
+            
+            default ->{
+                System.out.print("\n\nErro! Indice inexistente!\nTente novamente:\n");
+            }
+        }
     }
 
     
@@ -1052,7 +1226,7 @@ public class DESAFIO2 {
         }
         
         for (ESTUDANTE Estudante : Estudantes){
-            System.out.print("Nome: "+Estudante.getNome()+ "|| Matricula: "+ Estudante.getMatricula()+"|| Curso: "+Estudante.getCurso());
+            System.out.print("Nome: "+Estudante.getNome()+ "|| Matricula: "+ Estudante.getMatricula()+"|| Curso: "+Estudante.getCurso() + "|| Disciplinas cursadas: " + Estudante.getDisciplinas_cursadas());
         }
         System.out.println("\n\nPressione qualquer tecla para voltar...");
         sc.nextLine();
@@ -1071,7 +1245,7 @@ public class DESAFIO2 {
         System.out.print("Professores: \n\n");
         if(!(Professores.isEmpty())){
             for (PROFESSOR Professor : Professores){
-            System.out.println(Professor.getNome()+" - "+Professor.getTitulacao());
+            System.out.println(Professor.getNome()+" - "+Professor.getDisciplinas());
             }
         }else{
             System.out.println("Nenhum professor cadastrado!\n\n");
@@ -1080,7 +1254,7 @@ public class DESAFIO2 {
         System.out.print("Tutores: \n\n");
         if(!(Tutores.isEmpty())){
             for (TUTOR Tutor : Tutores){
-            System.out.println(Tutor.getNome()+" - "+Tutor.getArea_formacao());
+            System.out.println(Tutor.getNome()+" - "+Tutor.getDisciplinas());
             }
         }else{
             System.out.println("Nenhum tutor cadastrado!\n\n");

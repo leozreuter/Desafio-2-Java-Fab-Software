@@ -4,6 +4,9 @@
  */
 package com.mycompany.desafio2;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  *
  * @author Leonardo Reuter
@@ -11,6 +14,7 @@ package com.mycompany.desafio2;
 public class TUTOR extends PESSOA {
     private float salario_mensal;
     private String area_formacao;
+    private ArrayList <String> disciplinas = new ArrayList <> ();
 
     public TUTOR(String nome, int matricula, String endereco, float salario_mensal, String area_formacao) {
         this.nome = nome;
@@ -66,9 +70,27 @@ public class TUTOR extends PESSOA {
         this.area_formacao = area_formacao;
     }
 
+    public String getDisciplinas() {
+        String result = "";
+        if (this.disciplinas.isEmpty()){
+           return "Nenhuma disciplina cursada!";
+        }else{
+            for(String disciplina : disciplinas){           
+                result = result.concat(disciplina+", ");    
+            }
+        return result;
+        }
+    }
+    
+    public void setDisciplinas(String disciplina) {
+        Scanner sc = new Scanner (System.in);
+        sc.nextLine();
+        this.disciplinas.add(disciplina);       
+    }
+    
     @Override
     public String toString() {
-        return this.nome+": Matricula:"+ this.matricula+", Endereço: "+ this.endereco + ", Area de formaçãoo:" + area_formacao + ", Salario Mensal: R$" + salario_mensal;
+        return this.nome+": Matricula:"+ this.matricula+"\nEndereço: "+ this.endereco + " || Area de formaçãoo:" + area_formacao + " || Salario Mensal: R$" + salario_mensal +"| Disciplinas : " + this.getDisciplinas();
     }
     
     

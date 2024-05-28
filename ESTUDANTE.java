@@ -1,5 +1,9 @@
 package com.mycompany.desafio2;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
 /**
  *
  * @author Leonardo Reuter
@@ -7,7 +11,7 @@ package com.mycompany.desafio2;
 public class ESTUDANTE extends PESSOA {
     private int ano_ingresso;
     private String curso;
-    private String disciplina_cursada;
+    private ArrayList <String> disciplinas_cursadas = new ArrayList <> ();
 
     public ESTUDANTE(String nome, int matricula, String endereco, String curso, int ano_ingresso){
         this.nome = nome;
@@ -15,7 +19,6 @@ public class ESTUDANTE extends PESSOA {
         this.curso = curso;
         this.matricula = matricula;
         this.endereco = endereco;
-        this.disciplina_cursada = null;
     }
 
     @Override
@@ -64,17 +67,27 @@ public class ESTUDANTE extends PESSOA {
         this.curso = curso;
     }
 
-    public String getDisciplina_cursada() {
-        return disciplina_cursada;
+    public String getDisciplinas_cursadas() {
+        String result = "";
+        if (this.disciplinas_cursadas.isEmpty()){
+           return "Nenhuma disciplina cursada!";
+        }else{
+            for(String disciplina : disciplinas_cursadas){           
+                result = result.concat(disciplina+", ");    
+            }
+        return result;
+        }
     }
-
-    public void setDisciplina_cursada(String disciplina_cursada) {
-        this.disciplina_cursada = disciplina_cursada;
+    
+    public void setDisciplinas_cursadas(String disciplina) {
+        Scanner sc = new Scanner (System.in);
+        sc.nextLine();
+        this.disciplinas_cursadas.add(disciplina);       
     }
     
     @Override
     public String toString() {
-        return this.nome+": Matricula:"+ this.matricula+", Endereço: "+ this.endereco + ", Ano Ingresso:" + ano_ingresso + ", Curso: " + curso;
+        return this.nome+": Matricula:"+ this.matricula+" | Endereço: "+ this.endereco + " | Ano Ingresso:" + this.ano_ingresso + "\n| Curso: " + this.curso + " | Disciplinas cursadas: " + this.getDisciplinas_cursadas();
     }
     
 }
